@@ -18,11 +18,11 @@
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
 
-title: Website Template
+title: sp-uhh/film-osn
 logo: /assets/img/uhh_logo.svg
 email: # your email address
-description: >- # this means to ignore newlines until "baseurl:"
-  Template for a website using Jekyll and GitHub Pages.
+#description: >- # this means to ignore newlines until "baseurl:"
+#  Template for a website using Jekyll and GitHub Pages.
 domain: sp-uhh.github.io
 baseurl: "/film-osn/" # the subpath of your site, e.g. /blog
 url: "https://sp-uhh.github.io" # the base hostname & protocol for your site, e.g. http://example.com
