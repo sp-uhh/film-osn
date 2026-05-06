@@ -27,6 +27,7 @@ layout: default
     table {
         width: 100%;
         border-collapse: collapse;
+        font-family: Arial;
     }
    .table-container {
         width: 100%;
@@ -49,18 +50,28 @@ layout: default
     p {
         text-align: justify;
         hyphens: auto;
+        font-family: "Arial";
     }   
     div {
         margin: 0;
         padding: 0;
         box-sizing: border-box;
         max-width: 100%;
+        font-family: Arial;
     }
     /* Define a class for left-aligned text */
     .left-align {
         text-align: left;
         hyphens: none;
     } 
+    hr {
+    display: block;
+    height: 1px;
+    border: 0;
+    border-top: 1px solid #ccc;
+    margin: 1em 0;
+    padding: 0;
+    }
     .container {
         max-width: 100%;
         background-color: #f4f4f4;
@@ -69,6 +80,7 @@ layout: default
         padding: 0;
         margin: 0 auto;
         position: relative; 
+        font-family: Arial;
     }
     .inner-container {
         width: calc(100% - 30px);
@@ -117,121 +129,451 @@ layout: default
     .highlight:hover {
         background-color: #d3d3d3;
     }
+
+    /* === ADDED: side-by-side audio + room image layout === */
+    .audio-room-row{
+        display:flex;
+        gap:20px;
+        align-items:flex-start;
+        flex-wrap:wrap; /* responsive */
+    }
+    .audio-col{
+        flex: 1 1 520px;
+        min-width: 320px;
+    }
+    .room-col{
+        flex: 0 0 620px; /* keep next to audio on desktop */
+        max-width: 620px;
+        min-width: 320px;
+        font-family: Arial;
+    }
+    .room-col figure{ margin:0; padding:0; }
+    .room-col img{
+        width:600px;
+        max-width:100%;
+        height:auto;
+        border:1px solid #ddd;
+        display:block;
+    }
 </style>
 
-<h1>
-    LOW LATENCY NEURAL DIRECTIONAL FILTERING WITH DIRECTIVITY PATTERN CONDITIONING FOR SPEECH ENHANCEMENT IN HEARING DEVICES
+<h1 style="margin-top:0; font-family: Arial, sans-serif;"
+    >Directivity-Conditioned Low-Latency Neural Filtering for Speech Enhancement in Hearing Aids
 </h1>
+<h4 style="margin-top:0; font-family: Arial, sans-serif;color:#555"
+    >Lennart Uphaus, André Merboldt, Markus Hofbauer, Timo Gerkmann
+</h4>
 
-<p>
-    This is a test website to check if it is possible for me to add this to my IWAENC paper
-</p>
+    <hr>
+    <p>
+      Select an audio file:&nbsp;&nbsp;
+      <select id="audioSelect" onchange="playAudio()">
+        <option value="sample-0">sample-1</option>
+        <option value="sample-1">sample-2</option>
+        <option value="sample-2">sample-3</option>
+        <option value="sample-3">sample-4</option>
+        <option value="sample-4">sample-5</option>
+        <option value="sample-5">sample-6</option>
+        <option value="sample-6">sample-7</option>
+        <option value="sample-7">sample-8</option>
+        <option value="sample-8">sample-9</option>
+      </select>
+    </p>
 
-<h2>
-    Audio Examples
-</h2>
+<!-- === REWRAPPED: Audio Examples + room image next to each other === -->
+<div class="audio-room-row">
 
-<p>
-    p002/emo_adoration_sentences.wav<br>
-    <audio controls>
-        <source src="/informatik/sp/public/audio/publications/iwaenc2026-film-osn/Files/Clean/P3/sample1.wav" type="audio/wav">
-        Your browser does not support the audio element.
-    </audio>
-    <br>
+ <!-- LEFT: Audio Examples (aligned PESQ | ESTOI per model, compact) -->
+<!-- LEFT: Audio + Metrics -->
+  <div class="audio-col" style="flex:1 1 440px; min-width:520px; max-width:1250px;">
+    
 
-    p008/emo_contentment_sentences.wav<br>
-    <audio controls>
-        <source src="https://www2.informatik.uni-hamburg.de/sp/audio/publications/interspeech2024-ears/files/ears/p008_emo_contentment_sentences.wav" type="audio/wav">
-        Your browser does not support the audio element.
-        </audio>
-    <br>
+    <table style="width:100%; border-collapse:collapse; table-layout:fixed;">
+      <tr>
+        <th style="width:60%; text-align:left; border:0; padding:4px;">Audio</th>
 
-    p010/emo_cuteness_sentences.wav<br>
-    <audio controls>
-        <source src="https://www2.informatik.uni-hamburg.de/sp/audio/publications/interspeech2024-ears/files/ears/p010_emo_cuteness_sentences.wav" type="audio/wav">
-        Your browser does not support the audio element.
-    </audio>
-    <br>
-</p>
+      </tr>
 
-<h3>
-    With dropdown menu 
-</h3>
+      <tr>
+        <td style="border:1px solid #ddd; vertical-align:center; padding:4px;">
+          <strong>Noisy:</strong><br>
+          <audio id="audioPlayerNoisy" controls style="width:100%;">
+            <source id="audioSourceNoisy"
+              src="https://www2.informatik.uni-hamburg.de/sp/audio/publications/iwaenc2026-film-osn/Files/Noisy/sample-0.wav"
+              type="audio/wav">
+          </audio>
+        </td>
+        <td style="border:1px solid #ddd; vertical-align:center; padding:4px;">
+          <div style="display:flex; gap:8px; align-items:baseline; border:1px solid #eee; padding:3px 4px; background:#fafafa;">
+            <div style="flex:1; white-space:nowrap; font-size:0.92em;"><span >PESQ</span></div>
+            <div style="flex:1; white-space:nowrap; font-size:0.92em;"><span >ESTOI</span></div>
+            <div style="flex:1; white-space:nowrap; font-size:0.92em;"><span >SISDR</span></div>
+          </div>
+          <div style="display:flex; gap:8px; align-items:baseline; border:1px solid #eee; padding:3px 4px; background:#fafafa;">
+            <div style="flex:1; white-space:nowrap; font-size:0.92em;"><span id="pesq-noisy">1.23</span></div>
+            <div style="flex:1; white-space:nowrap; font-size:0.92em;"><span id="estoi-noisy">0.60</span></div>
+            <div style="flex:1; white-space:nowrap; font-size:0.92em;"><span id="sisdr-noisy">-3.76</span></div>
+          </div>
+        </td>
+      </tr>
 
-<p>Select an audio file: &nbsp;&nbsp;
-    <select id="audioSelect" onchange="playAudio()">
-        <option value="P3/sample1">P3/sample1</option>
-    <option value="P3/sample2">P3/sample2</option>
-    </select>
-</p>
+      <tr>
+        <td style="border:1px solid #ddd; vertical-align:center; padding:4px;">
+          <strong>FiLM-JNF-32ms</strong> <span class="reference" data-ref="film_jnf"></span>:<br>
+          <audio id="audioPlayerJNF32" controls style="width:100%;">
+            <source id="audioSourceJNF32"
+              src="https://www2.informatik.uni-hamburg.de/sp/audio/publications/iwaenc2026-film-osn/Files/FiLM-JNF32ms/sample-0.wav"
+              type="audio/wav">
+          </audio>
+        </td>
+        <td style="border:1px solid #ddd; vertical-align:center; padding:4px;">
+          <div style="display:flex; gap:8px; align-items:baseline; border:1px solid #eee; padding:3px 4px; background:#fafafa;">
+            <div style="flex:1; white-space:nowrap; font-size:0.92em;"><span >PESQ</span></div>
+            <div style="flex:1; white-space:nowrap; font-size:0.92em;"><span >ESTOI</span></div>
+            <div style="flex:1; white-space:nowrap; font-size:0.92em;"><span >SISDR</span></div>
+          </div>
+          <div style="display:flex; gap:8px; align-items:baseline; border:1px solid #eee; padding:3px 4px; background:#fafafa;">
+            <div style="flex:1; white-space:nowrap; font-size:0.92em;"><span id="pesq-jnf32">2.72</span></div>
+            <div style="flex:1; white-space:nowrap; font-size:0.92em;"><span id="estoi-jnf32">0.83</span></div>
+            <div style="flex:1; white-space:nowrap; font-size:0.92em;"><span id="sisdr-jnf32">6.53</span></div>
+          </div>
+        </td>
+      </tr>
 
-<p>
-    Noisy: <br>
-    <audio id="audioPlayerNoisy" controls>
-        <source id="audioSourceNoisy" src="../Files/Clean/P3/sample1.wav" type="audio/wav">
-        Your browser does not support the audio element.
-    </audio><br>
+      <tr>
+        <td style="border:1px solid #ddd; vertical-align:center; padding:4px;">
+          <strong>FiLM-JNF-8ms:</strong><br>
+          <audio id="audioPlayerJNF8" controls style="width:100%;">
+            <source id="audioSourceJNF8"
+              src="https://www2.informatik.uni-hamburg.de/sp/audio/publications/iwaenc2026-film-osn/Files/FiLM-JNF8ms/sample-0.wav"
+              type="audio/wav">
+          </audio>
+        </td>
+        <td style="border:1px solid #ddd; vertical-align:center; padding:4px;">
+          <div style="display:flex; gap:8px; align-items:baseline; border:1px solid #eee; padding:3px 4px; background:#fafafa;">
+            <div style="flex:1; white-space:nowrap; font-size:0.92em;"><span >PESQ</span></div>
+            <div style="flex:1; white-space:nowrap; font-size:0.92em;"><span >ESTOI</span></div>
+            <div style="flex:1; white-space:nowrap; font-size:0.92em;"><span >SISDR</span></div>
+          </div>
+          <div style="display:flex; gap:8px; align-items:baseline; border:1px solid #eee; padding:3px 4px; background:#fafafa;">
+            <div style="flex:1; white-space:nowrap; font-size:0.92em;"><span id="pesq-jnf8">1.77</span></div>
+            <div style="flex:1; white-space:nowrap; font-size:0.92em;"><span id="estoi-jnf8">0.73</span></div>
+            <div style="flex:1; white-space:nowrap; font-size:0.92em;"><span id="sisdr-jnf8">2.48</span></div>
+          </div>
+        </td>
+      </tr>
 
-    FiLM-JNF-32ms <span class="reference" data-ref="FiLM-OSN-32ms"></span>:<br>
-    <audio id="audioPlayerjnf32" controls>
-        <source id="audioSourcejnf32" src="/informatik/sp/public/audio/publications/iwaenc2026-film-osn/Files/FiLM-JNF32ms/P3/sample1.wav" type="audio/wav">
-        Your browser does not support the audio element.
-    </audio><br>
+      <tr>
+        <td style="border:1px solid #ddd; vertical-align:center; padding:4px;">
+          <strong>FiLM-OSN-L1+IPD:</strong><br>
+          <audio id="audioPlayerOSNreg" controls style="width:100%;">
+            <source id="audioSourceOSNreg"
+              src="https://www2.informatik.uni-hamburg.de/sp/audio/publications/iwaenc2026-film-osn/Files/FiLM-OSN/sample-0.wav"
+              type="audio/wav">
+          </audio>
+        </td>
+        <td style="border:1px solid #ddd; vertical-align:center; padding:4px;">
+          <div style="display:flex; gap:8px; align-items:baseline; border:1px solid #eee; padding:3px 4px; background:#fafafa;">
+            <div style="flex:1; white-space:nowrap; font-size:0.92em;"><span >PESQ</span></div>
+            <div style="flex:1; white-space:nowrap; font-size:0.92em;"><span >ESTOI</span></div>
+            <div style="flex:1; white-space:nowrap; font-size:0.92em;"><span >SISDR</span></div>
+          </div>
+          <div style="display:flex; gap:8px; align-items:baseline; border:1px solid #eee; padding:3px 4px; background:#fafafa;">
+            <div style="flex:1; white-space:nowrap; font-size:0.92em;"><span id="pesq-osn">2.56</span></div>
+            <div style="flex:1; white-space:nowrap; font-size:0.92em;"><span id="estoi-osn">0.82</span></div>
+            <div style="flex:1; white-space:nowrap; font-size:0.92em;"><span id="sisdr-osn">4.64</span></div>
+          </div>
+        </td>
+      </tr>
 
-    FiLM-JNF-8ms <span class="reference" data-ref="FiLM-JNF-8ms"></span>:<br>
-    <audio id="audioPlayerosn" controls>
-        <source id="audioSourceCDiffuSE" src="/informatik/sp/public/audio/publications/iwaenc2026-film-osn/Files/FiLM-JNF8ms/P3/sample1.wav" type="audio/wav">
-        Your browser does not support the audio element.
-    </audio><br>
+      <tr>
+        <td style="border:1px solid #ddd; vertical-align:center; padding:4px;">
+          <strong>Clean:</strong><br>
+          <audio id="audioPlayerClean" controls style="width:100%;">
+            <source id="audioSourceClean"
+              src="https://www2.informatik.uni-hamburg.de/sp/audio/publications/iwaenc2026-film-osn/Files/Clean/sample-0.wav"
+              type="audio/wav">
+          </audio>
+        </td>
+      </tr>
+    </table>
+  </div>
 
-    Clean: <br>
-    <audio id="audioPlayerClean" controls>
-        <source id="audioSourceClean" src="/informatik/sp/public/audio/publications/iwaenc2026-film-osn/Files/Clean/P3/sample1.wav" type="audio/wav">
-        Your browser does not support the audio element.
-    </audio>
-</p>
+  <!-- RIGHT: Sample Information + 3 fixed images side-by-side -->
+  <div class="room-col" style="flex:1 1 340px; min-width:300px; max-width:600px;">
+
+    <!-- 3 images next to each other (fixed, never change on sample click) -->
+    <div style="display:flex; gap:12px; justify-content:center; align-items:flex-start; flex-wrap:wrap;">
+      
+      <figure style="margin:2; padding:5px; width:100%; min-width:180px;">
+        <img
+          id = "roomImage"
+          src="https://www2.informatik.uni-hamburg.de/sp/audio/publications/iwaenc2026-film-osn/Files/Rooms/sample-0.png"
+          style="width:100%; height:auto; border:1px solid #ddd;"
+          alt="Room image 1">
+      </figure>
+
+    </div>
+  </div>
+
+</div>
+<!-- === end side-by-side wrapper === -->
+<hr>
+<style>
+/* Existing styles ... */
+
+.fixed-size-table {
+  width: 600px; /* fixed width */
+  min-width: 300px;
+  max-width: 600px;
+  height: 150px; /* fixed height, optional */
+  min-height: 150px;
+  max-height: 150px;
+  table-layout: fixed; /* for fixed cell sizes */
+  border-collapse: collapse;
+}
+
+.fixed-size-table th, .fixed-size-table td {
+  width: 50%; /* each column takes up 50% of fixed width */
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis; /* truncate overflowing text */
+  padding: 4px;
+  border: 1px solid #ddd;
+}
+</style>
 
 <script>
+  // Example: keys must match whatever values your `selectedAudio` variable uses
+  const sampleInfoData = {
+    "sample-0": {
+      pesq_osn: "2.56",
+      estoi_osn: "0.82",
+      sisdr_osn: "4.64",
+      pesq_jnf32: "2.72",
+      estoi_jnf32: "0.83",
+      sisdr_jnf32: "6.53",
+      pesq_jnf8: "1.77",
+      estoi_jnf8: "0.73",
+      sisdr_jnf8: "2.48",
+      pesq_noisy: "1.23",
+      estoi_noisy: "0.60",
+      sisdr_noisy: "-3.76",
+      pesq_clean: "3.21",
+      estoi_clean: "0.8",
+    },
+    "sample-1": {
+      pesq_osn: "2.15",
+      estoi_osn: "0.79",
+      sisdr_osn: "6.50",
+      pesq_jnf32: "2.19",
+      estoi_jnf32: "0.73",
+      sisdr_jnf32: "5.66",
+      pesq_jnf8: "1.73",
+      estoi_jnf8: "0.69",
+      sisdr_jnf8: "3.98",
+      pesq_noisy: "1.11",
+      estoi_noisy: "0.44",
+      sisdr_noisy: "-4.17",
+      pesq_clean: "3.21",
+      estoi_clean: "0.8",
+    },
+    "sample-2": {
+      pesq_osn: "1.76",
+      estoi_osn: "0.76",
+      sisdr_osn: "6.57",
+      pesq_jnf32: "1.91",
+      estoi_jnf32: "0.73",
+      sisdr_jnf32: "4.40",
+      pesq_jnf8: "1.56",
+      estoi_jnf8: " 0.64",
+      sisdr_jnf8: "3.52",
+      pesq_noisy: "1.12",
+      estoi_noisy: "0.34",
+      sisdr_noisy: "-6.01",
+      pesq_clean: "3.21",
+      estoi_clean: "0.8",
+    },
+    "sample-3": {
+      pesq_osn: "1.39",
+      estoi_osn: "0.64",
+      sisdr_osn: "1.94",
+      pesq_jnf32: "1.42",
+      estoi_jnf32: "0.63",
+      sisdr_jnf32: "-0.04",
+      pesq_jnf8: "1.34",
+      estoi_jnf8: "0.57",
+      sisdr_jnf8: "-0.38",
+      pesq_noisy: "1.08",
+      estoi_noisy: "0.39",
+      sisdr_noisy: "-8.62",
+      pesq_clean: "3.21",
+      estoi_clean: "0.8",
+    },
+    "sample-4": {
+      pesq_osn: "3.25",
+      estoi_osn: "0.86",
+      sisdr_osn: "10.46",
+      pesq_jnf32: "3.23",
+      estoi_jnf32: "0.87",
+      sisdr_jnf32: "10.36",
+      pesq_jnf8: "2.76",
+      estoi_jnf8: "0.82",
+      sisdr_jnf8: "8.47",
+      pesq_noisy: "1.38",
+      estoi_noisy: "0.69",
+      sisdr_noisy: "-1.75",
+      pesq_clean: "3.21",
+      estoi_clean: "0.8",
+    },
+    "sample-5": {
+      pesq_osn: "2.81",
+      estoi_osn: "0.86",
+      sisdr_osn: "8.70",
+      pesq_jnf32: "2.75",
+      estoi_jnf32: "0.85",
+      sisdr_jnf32: "8.17",
+      pesq_jnf8: "2.12",
+      estoi_jnf8: "0.79",
+      sisdr_jnf8: " 6.17",
+      pesq_noisy: "1.14",
+      estoi_noisy: "0.54",
+      sisdr_noisy: "-3.82",
+      pesq_clean: "3.21",
+      estoi_clean: "0.8",
+    },
+    "sample-6": {
+      pesq_osn: "2.03",
+      estoi_osn: "0.83",
+      sisdr_osn: " 5.20",
+      pesq_jnf32: "2.02",
+      estoi_jnf32: "0.76",
+      sisdr_jnf32: "3.95",
+      pesq_jnf8: "1.65",
+      estoi_jnf8: "0.71",
+      sisdr_jnf8: "2.65",
+      pesq_noisy: "1.17",
+      estoi_noisy: "0.45",
+      sisdr_noisy: "-4.85",
+      pesq_clean: "3.21",
+      estoi_clean: "0.8",
+    },
+    "sample-7": {
+      pesq_osn: "2.13",
+      estoi_osn: "0.77",
+      sisdr_osn: "6.38",
+      pesq_jnf32: "2.07",
+      estoi_jnf32: "0.73",
+      sisdr_jnf32: "1.60",
+      pesq_jnf8: "1.83",
+      estoi_jnf8: "0.64",
+      sisdr_jnf8: "2.29",
+      pesq_noisy: "1.15",
+      estoi_noisy: "0.44",
+      sisdr_noisy: "-5.66",
+      pesq_clean: "3.21",
+      estoi_clean: "0.8",
+    },
+    "sample-8": {
+      pesq_osn: "2.96",
+      estoi_osn: "0.90",
+      sisdr_osn: "9.30",
+      pesq_jnf32: "3.08",
+      estoi_jnf32: "0.90",
+      sisdr_jnf32: "9.40",
+      pesq_jnf8: "2.22",
+      estoi_jnf8: "0.82",
+      sisdr_jnf8: "6.97",
+      pesq_noisy: "1.17",
+      estoi_noisy: "0.55",
+      sisdr_noisy: "-2.47",
+      pesq_clean: "3.21",
+      estoi_clean: "0.8",
+    },
+    "sample-9": {
+      pesq_osn: "2.86",
+      estoi_osn: "0.90",
+      sisdr_osn: "8.65",
+      pesq_jnf32: "2.96",
+      estoi_jnf32: "0.90",
+      sisdr_jnf32: "8.63",
+      pesq_jnf8: "2.48",
+      estoi_jnf8: "0.86",
+      sisdr_jnf8: "6.95",
+      pesq_noisy: "1.25",
+      estoi_noisy: "0.55",
+      sisdr_noisy: "-1.02",
+      pesq_clean: "3.21",
+      estoi_clean: "0.8",
+    },
+    // ...add more samples as needed
+  };
+</script>
+
+<script>
+
     function playAudio() {
         var audioPlayerNoisy = document.getElementById('audioPlayerNoisy');
-        var audioPlayerjnf32 = document.getElementById('audioPlayerjnf32');
-        var audioPlayerCDiffuSE = document.getElementById('audioPlayerCDiffuSE');
-        var audioPlayerDemucs = document.getElementById('audioPlayerDemucs');
-        var audioPlayerSGMSE = document.getElementById('audioPlayerSGMSE');
-        var audioPlayerClean = document.getElementById('audioPlayerClean');
-        var audioSourceNoisy = document.getElementById('audioSourceNoisy');
-        var audioSourceConvTasNet = document.getElementById('audioSourceConvTasNet');
-        var audioSourceCDiffuSE = document.getElementById('audioSourceCDiffuSE');
-        var audioSourceDemucs = document.getElementById('audioSourceDemucs');
-        var audioSourceSGMSE = document.getElementById('audioSourceSGMSE');
-        var audioSourceClean = document.getElementById('audioSourceClean');
+        var audioSourceJNF32 = document.getElementById('audioPlayerJNF32');
+        var audioSourceOSreg = document.getElementById('audioPlayerOSNreg')
+        var audioSourceJNF8 = document.getElementById('audioPlayerJNF8');
+        var audioSourceClean = document.getElementById('audioPlayerClean');
         var selectedAudio = document.getElementById('audioSelect').value;
 
         if (selectedAudio) {
-            // Set the source of the source elements, not the audio players
-            audioSourceNoisy.src = "/Files/Noisy/" + selectedAudio + ".wav";
-            audioPlayerNoisy.load(); // Load the selected audio file using the audio player
+            audioSourceNoisy.src = "https://www2.informatik.uni-hamburg.de/sp/audio/publications/iwaenc2026-film-osn/Files/Noisy/" + selectedAudio + ".wav";
+            audioPlayerNoisy.load();
 
-            audioSourcejnf32.src = "/informatik/sp/public/audio/publications/iwaenc2026-film-osn/Files/FiLM-JNF32ms" + selectedAudio + ".wav";
-            audioPlayerjnf32.load(); // Load the selected audio file using the audio player
+            audioSourceClean.src = "https://www2.informatik.uni-hamburg.de/sp/audio/publications/iwaenc2026-film-osn/Files/Clean/" + selectedAudio + ".wav";
+            audioPlayerClean.load();
 
-            audioSourceCDiffuSE.src = "https://www2.informatik.uni-hamburg.de/sp/audio/publications/interspeech2024-ears/files/ears-wham/cdiffuse/" + selectedAudio + ".wav";
-            audioPlayerCDiffuSE.load(); // Load the selected audio file using the audio player
+            audioSourceJNF32.src = "https://www2.informatik.uni-hamburg.de/sp/audio/publications/iwaenc2026-film-osn/Files/FiLM-JNF32ms/" + selectedAudio + ".wav";
+            audioPlayerJNF32.load();
 
-            audioSourceDemucs.src = "https://www2.informatik.uni-hamburg.de/sp/audio/publications/interspeech2024-ears/files/ears-wham/demucs/" + selectedAudio + ".wav";
-            audioPlayerDemucs.load(); // Load the selected audio file using the audio player
+            audioSourceJNF8.src = "https://www2.informatik.uni-hamburg.de/sp/audio/publications/iwaenc2026-film-osn/Files/FiLM-JNF8ms/" + selectedAudio + ".wav";
+            audioPlayerJNF8.load();
 
-            audioSourceSGMSE.src = "https://www2.informatik.uni-hamburg.de/sp/audio/publications/interspeech2024-ears/files/ears-wham/sgmse/" + selectedAudio + ".wav";
-            audioPlayerSGMSE.load(); // Load the selected audio file using the audio player
+            audioSourceOSreg.src = "https://www2.informatik.uni-hamburg.de/sp/audio/publications/iwaenc2026-film-osn/Files/FiLM-OSN/" + selectedAudio + ".wav";
+            audioPlayerOSNreg.load();
 
-            audioSourceClean.src = "https://www2.informatik.uni-hamburg.de/sp/audio/publications/interspeech2024-ears/files/ears-wham/clean/" + selectedAudio + ".wav";
-            audioPlayerClean.load(); // Load the selected audio file using the audio player
-
-            // This will ensure that the audio players are updating their children source elements
-            // and reloading them
+            // === NEW: update the room image ===
+            const roomImage = document.getElementById('roomImage');
+            roomImage.src = "https://www2.informatik.uni-hamburg.de/sp/audio/publications/iwaenc2026-film-osn/Files/Rooms/" + selectedAudio + ".png";
+            document.getElementById('pesq-osn').textContent = sampleInfoData[selectedAudio]['pesq_osn'];
+            document.getElementById('estoi-osn').textContent = sampleInfoData[selectedAudio]['estoi_osn'];
+            document.getElementById('sisdr-osn').textContent = sampleInfoData[selectedAudio]['sisdr_osn'];
+            document.getElementById('pesq-noisy').textContent = sampleInfoData[selectedAudio]['pesq_noisy'];
+            document.getElementById('estoi-noisy').textContent = sampleInfoData[selectedAudio]['estoi_noisy'];
+            document.getElementById('sisdr-noisy').textContent = sampleInfoData[selectedAudio]['sisdr_noisy'];
+            document.getElementById('pesq-jnf32').textContent = sampleInfoData[selectedAudio]['pesq_jnf32'];
+            document.getElementById('estoi-jnf32').textContent = sampleInfoData[selectedAudio]['estoi_jnf32'];
+            document.getElementById('sisdr-jnf32').textContent = sampleInfoData[selectedAudio]['sisdr_jnf32'];
+            document.getElementById('pesq-jnf8').textContent = sampleInfoData[selectedAudio]['pesq_jnf8'];
+            document.getElementById('estoi-jnf8').textContent = sampleInfoData[selectedAudio]['estoi_jnf8'];
+            document.getElementById('sisdr-jnf8').textContent = sampleInfoData[selectedAudio]['sisdr_jnf8'];
+            document.getElementById('pesq-clean').textContent = sampleInfoData[selectedAudio]['pesq_clean'];
+            document.getElementById('estoi-clean').textContent = sampleInfoData[selectedAudio]['estoi_clean'];
+            
+            // Update the sample info display (table)
+            document.getElementById('reverbTime').textContent = sampleInfoData[selectedAudio]['reverberationTime'];
+            document.getElementById('distTarget').textContent = sampleInfoData[selectedAudio]['distanceTarget'];
+            document.getElementById('distInterferer').textContent = sampleInfoData[selectedAudio]['distanceInterferer'];
+            document.getElementById('doaTarget').textContent = sampleInfoData[selectedAudio]['doaTarget'];
+            document.getElementById('doaInterferer').textContent = sampleInfoData[selectedAudio]['doaInterferer'];
         }
     }
+</script>
 
+<br>
+
+<script>
+    document.getElementById('copyButton').addEventListener('click', function() {
+        const codeContent = document.querySelector('div[data-snippet-clipboard-copy-content]').getAttribute('data-snippet-clipboard-copy-content');
+        navigator.clipboard.writeText(codeContent).then(function() {
+        }, function() {
+            alert('Failed to copy!');
+        });
+    });
 </script>
 
 <br>
@@ -239,6 +581,7 @@ layout: default
 <h2 style="margin-top:0; font-family: Arial, sans-serif;">
     Directivity patterns 
 </h2>
+<hr>
 <h3 style="margin-top:0; font-family: Arial, sans-serif;">
   FiLM-OSN-8ms-L1+IPD
 </h3>
@@ -246,7 +589,7 @@ layout: default
     <!-- Bilder (ändern sich beim Klicken auf Samples nicht) -->
     <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
 
-      <div style="width: 30%; min-width: 200px;">
+      <div style="width: 20%; min-width: 250px;">
         <div style="text-align:center; font-weight:600; margin-bottom:8px;">
           Direction: 25°
         </div>
@@ -254,7 +597,7 @@ layout: default
              alt="Bild 1" style="width:100%; height:auto; display:block;">
       </div>
     
-      <div style="width: 30%; min-width: 200px;">
+      <div style="width: 20%; min-width: 250px;">
         <div style="text-align:center; font-weight:600; margin-bottom:8px;">
           Direction: 90°
         </div>
@@ -262,7 +605,7 @@ layout: default
              alt="Bild 2" style="width:100%; height:auto; display:block;">
       </div>
     
-      <div style="width: 30%; min-width: 200px;">
+      <div style="width: 20%; min-width: 250px;">
         <div style="text-align:center; font-weight:600; margin-bottom:8px;">
           Direction: 242
         </div>
@@ -270,6 +613,7 @@ layout: default
              alt="Bild 3" style="width:100%; height:auto; display:block;">
       </div>
 </div>
+<hr>
 <h3 style="margin-top:0; font-family: Arial, sans-serif;">
   FiLM-OSN-8ms-L1
 </h3>
@@ -277,7 +621,7 @@ layout: default
     <!-- Bilder (ändern sich beim Klicken auf Samples nicht) -->
     <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
 
-      <div style="width: 30%; min-width: 200px;">
+      <div style="width: 30%; min-width: 250px;">
         <div style="text-align:center; font-weight:600; margin-bottom:8px;">
           Direction: 25°
         </div>
@@ -285,7 +629,7 @@ layout: default
              alt="Bild 1" style="width:100%; height:auto; display:block;">
       </div>
     
-      <div style="width: 30%; min-width: 200px;">
+      <div style="width: 30%; min-width: 250px;">
         <div style="text-align:center; font-weight:600; margin-bottom:8px;">
           Direction: 90°
         </div>
@@ -293,7 +637,7 @@ layout: default
              alt="Bild 2" style="width:100%; height:auto; display:block;">
       </div>
     
-      <div style="width: 30%; min-width: 200px;">
+      <div style="width: 30%; min-width: 250px;">
         <div style="text-align:center; font-weight:600; margin-bottom:8px;">
           Direction: 242
         </div>
@@ -301,6 +645,7 @@ layout: default
              alt="Bild 3" style="width:100%; height:auto; display:block;">
       </div>
 </div>
+<hr>
 <h3 style="margin-top:0; font-family: Arial, sans-serif;">
   FiLM-JNF-32ms
 </h3>
@@ -308,7 +653,7 @@ layout: default
     <!-- Bilder (ändern sich beim Klicken auf Samples nicht) -->
     <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
 
-      <div style="width: 30%; min-width: 200px;">
+      <div style="width: 30%; min-width: 250px;">
         <div style="text-align:center; font-weight:600; margin-bottom:8px;">
           Direction: 25°
         </div>
@@ -316,7 +661,7 @@ layout: default
              alt="Bild 1" style="width:100%; height:auto; display:block;">
       </div>
     
-      <div style="width: 30%; min-width: 200px;">
+      <div style="width: 30%; min-width: 250px;">
         <div style="text-align:center; font-weight:600; margin-bottom:8px;">
           Direction: 90°
         </div>
@@ -324,7 +669,7 @@ layout: default
              alt="Bild 2" style="width:100%; height:auto; display:block;">
       </div>
     
-      <div style="width: 30%; min-width: 200px;">
+      <div style="width: 30%; min-width: 250px;">
         <div style="text-align:center; font-weight:600; margin-bottom:8px;">
           Direction: 242
         </div>
@@ -333,7 +678,6 @@ layout: default
       </div>
 </div>
 <hr>
-
 <h2>
     References
 </h2>
@@ -349,6 +693,8 @@ layout: default
             "cdiffuse": "Y.-J. Lu, Z.-Q. Wang, S. Watanabe, A. Richard, C. Yu, and Y. Tsao, “Conditional diffusion probabilistic model for speech enhancement,” in IEEE International Conference on Acoustics, Speech and Signal Processing, 2022, pp. 7402–7406.",
             "demucs": "S. Rouard, F. Massa, and A. Défossez, “Hybrid transformers for music source separation,” in IEEE International Conference on Acoustics, Speech and Signal Processing, 2023.",
             "sgmse": "J. Richter, S. Welker, J.-M. Lemercier, B. Lay, and T. Gerkmann, “Speech enhancement and dereverberation with diffusion-based generative models,” IEEE/ACM Transactions on Audio, Speech, and Language Processing, vol. 31, pp. 2351–2364, 2023.",
+            "hartf_data":"F. Pausch and S. A. B. A. Doma, and J. Fels, “IHTA-indHARTF - Database of individual behind-the-ear hearing-aid-related transfer functions with high spatial resolution,” 2022",
+            "film_jnf": "W. Huang and S. R. Chetupalli and E. A. P. Habet, ”Neural Directional Filtering with Configurable Directivity Pattern at Inference,” in arXiv preprint arXiv:2510.20253, 2025"
         };
 
         // Collect keys in order of their appearance, without duplication
