@@ -262,7 +262,28 @@ layout: default
           </div>
         </td>
       </tr>
-
+        <tr>
+        <td style="border:1px solid #ddd; vertical-align:center; padding:4px;">
+          <strong>FiLM-OSN-L1:</strong><br>
+          <audio id="audioPlayerOSNnoreg" controls style="width:100%;">
+            <source id="audioSourceOSNnoreg"
+              src="https://www2.informatik.uni-hamburg.de/sp/audio/publications/iwaenc2026-film-osn/Files/FiLM-OSN-NOREG/sample-0.wav"
+              type="audio/wav">
+          </audio>
+        </td>
+        <td style="border:1px solid #ddd; vertical-align:center; padding:4px;">
+          <div style="display:flex; gap:8px; align-items:baseline; border:1px solid #eee; padding:3px 4px; background:#fafafa;">
+            <div style="flex:1; white-space:nowrap; font-size:0.92em;"><span >PESQ</span></div>
+            <div style="flex:1; white-space:nowrap; font-size:0.92em;"><span >ESTOI</span></div>
+            <div style="flex:1; white-space:nowrap; font-size:0.92em;"><span >SISDR</span></div>
+          </div>
+          <div style="display:flex; gap:8px; align-items:baseline; border:1px solid #eee; padding:3px 4px; background:#fafafa;">
+            <div style="flex:1; white-space:nowrap; font-size:0.92em;"><span id="pesq-osn-no">2.48</span></div>
+            <div style="flex:1; white-space:nowrap; font-size:0.92em;"><span id="estoi-osn-no">0.83</span></div>
+            <div style="flex:1; white-space:nowrap; font-size:0.92em;"><span id="sisdr-osn-no">4.64</span></div>
+          </div>
+        </td>
+        <tr>
       <tr>
         <td style="border:1px solid #ddd; vertical-align:center; padding:4px;">
           <strong>FiLM-OSN-L1+IPD:</strong><br>
@@ -361,6 +382,9 @@ layout: default
       sisdr_noisy: "-3.76",
       pesq_clean: "3.21",
       estoi_clean: "0.8",
+      pesq_osn_no: "2.48",
+      estoi_osn_no:"0.83",
+      sisdr_osn_no:"4.64",
     },
     "sample-1": {
       pesq_osn: "2.15",
@@ -377,6 +401,9 @@ layout: default
       sisdr_noisy: "-4.17",
       pesq_clean: "3.21",
       estoi_clean: "0.8",
+      pesq_osn_no: "2.12",
+      estoi_osn_no:"0.78",
+      sisdr_osn_no:"6.87",
     },
     "sample-2": {
       pesq_osn: "1.76",
@@ -393,6 +420,9 @@ layout: default
       sisdr_noisy: "-6.01",
       pesq_clean: "3.21",
       estoi_clean: "0.8",
+      pesq_osn_no: "1.73",
+      estoi_osn_no:"0.76",
+      sisdr_osn_no:"6.80",
     },
     "sample-3": {
       pesq_osn: "1.39",
@@ -409,6 +439,9 @@ layout: default
       sisdr_noisy: "-8.62",
       pesq_clean: "3.21",
       estoi_clean: "0.8",
+      pesq_osn_no: "1.44",
+      estoi_osn_no:" 0.63",
+      sisdr_osn_no:"1.87",
     },
     "sample-4": {
       pesq_osn: "3.25",
@@ -425,6 +458,9 @@ layout: default
       sisdr_noisy: "-1.75",
       pesq_clean: "3.21",
       estoi_clean: "0.8",
+      pesq_osn_no: "3.26",
+      estoi_osn_no:"0.86",
+      sisdr_osn_no:"10.18",
     },
     "sample-5": {
       pesq_osn: "2.81",
@@ -441,6 +477,9 @@ layout: default
       sisdr_noisy: "-3.82",
       pesq_clean: "3.21",
       estoi_clean: "0.8",
+      pesq_osn_no: "2.80",
+      estoi_osn_no:"0.86",
+      sisdr_osn_no:"8.49",
     },
     "sample-6": {
       pesq_osn: "2.03",
@@ -457,6 +496,9 @@ layout: default
       sisdr_noisy: "-4.85",
       pesq_clean: "3.21",
       estoi_clean: "0.8",
+      pesq_osn_no: "1.98",
+      estoi_osn_no:"0.81",
+      sisdr_osn_no:"4.95",
     },
     "sample-7": {
       pesq_osn: "2.13",
@@ -473,6 +515,9 @@ layout: default
       sisdr_noisy: "-5.66",
       pesq_clean: "3.21",
       estoi_clean: "0.8",
+      pesq_osn_no: "2.09",
+      estoi_osn_no:"0.76",
+      sisdr_osn_no:"6.14",
     },
     "sample-8": {
       pesq_osn: "2.96",
@@ -489,6 +534,9 @@ layout: default
       sisdr_noisy: "-2.47",
       pesq_clean: "3.21",
       estoi_clean: "0.8",
+      pesq_osn_no: "2.91",
+      estoi_osn_no:"0.89",
+      sisdr_osn_no:"9.41",
     },
     "sample-9": {
       pesq_osn: "2.86",
@@ -505,6 +553,9 @@ layout: default
       sisdr_noisy: "-1.02",
       pesq_clean: "3.21",
       estoi_clean: "0.8",
+      pesq_osn_no: "2.83",
+      estoi_osn_no:"0.90",
+      sisdr_osn_no:"8.56",
     },
     // ...add more samples as needed
   };
@@ -535,7 +586,9 @@ layout: default
 
             audioSourceOSreg.src = "https://www2.informatik.uni-hamburg.de/sp/audio/publications/iwaenc2026-film-osn/Files/FiLM-OSN/" + selectedAudio + ".wav";
             audioPlayerOSNreg.load();
-
+            
+            audioSourceOSNnoreg.src = "https://www2.informatik.uni-hamburg.de/sp/audio/publications/iwaenc2026-film-osn/Files/FiLM-OSN-NOREG/" + selectedAudio + ".wav";
+            audioPlayerOSNnoreg.load();
             // === NEW: update the room image ===
             const roomImage = document.getElementById('roomImage');
             roomImage.src = "https://www2.informatik.uni-hamburg.de/sp/audio/publications/iwaenc2026-film-osn/Files/Rooms/" + selectedAudio + ".png";
@@ -551,6 +604,9 @@ layout: default
             document.getElementById('pesq-jnf8').textContent = sampleInfoData[selectedAudio]['pesq_jnf8'];
             document.getElementById('estoi-jnf8').textContent = sampleInfoData[selectedAudio]['estoi_jnf8'];
             document.getElementById('sisdr-jnf8').textContent = sampleInfoData[selectedAudio]['sisdr_jnf8'];
+            document.getElementById('pesq-osn-no').textContent = sampleInfoData[selectedAudio]['pesq_osn_no'];
+            document.getElementById('estoi-osn-no').textContent = sampleInfoData[selectedAudio]['estoi_osn_no'];
+            document.getElementById('sisdr-osn-no').textContent = sampleInfoData[selectedAudio]['sisdr_osn_no'];
             document.getElementById('pesq-clean').textContent = sampleInfoData[selectedAudio]['pesq_clean'];
             document.getElementById('estoi-clean').textContent = sampleInfoData[selectedAudio]['estoi_clean'];
             
