@@ -24,15 +24,15 @@
         <p class="left-align">{{ site.description | default: site.github.project_tagline }}</p>
 <p>
     This site acts as supplementary material to our work on Directivity-Conditioned Low-Latency Neural Filtering for Speech Enhancement in Hearing Aids. We
-    present a low-latency solution for neural directional filters used on a hearing device setup that achieves comparable results to a baseline without low-latency 
+    present a low-latency solution for neural directional filters for a hearing-device microphone setup that achieves comparable results to a baseline without low-latency 
     constraints.
 </p>
 
 
 <h2 style="margin-top:0; font-family: Arial, sans-serif;">Synthetic dataset</h2>
   <p>
-    We create a synthetic dataset to enable to train neural directional filtering approaches on a hearing device microphone array setup. 
-    The dataset consists of five-speaker mixtures in a reveberant room, which are spatialized by the Hearing Aid Related Transfer Functions from
+    We create a synthetic dataset to enable training neural directional filtering approaches on a hearing device microphone array setup. 
+    The dataset consists of five-speaker mixtures in a reveberant room, which are spatialized using the Hearing Aid Related Transfer Functions from
     <span class="reference" data-ref="hartf_data"></span>. One individual head and one kemar head is used to evaluate the models.
     The reverberation time varies between 0.2-0.5s.
   </p>
